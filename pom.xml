@@ -23,6 +23,7 @@
         <module>order</module>
         <module>stock</module>
         <module>payment</module>
+        <module>delivery</module>
     </modules>
 
     <dependencies>
