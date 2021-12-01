@@ -19,6 +19,7 @@
     <modules>
         <module>user</module>
         <module>product</module>
+        <module>bag</module>
     </modules>
 
     <dependencies>
