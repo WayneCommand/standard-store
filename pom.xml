@@ -18,6 +18,7 @@
 
     <modules>
         <module>user</module>
+        <module>product</module>
     </modules>
 
     <dependencies>
