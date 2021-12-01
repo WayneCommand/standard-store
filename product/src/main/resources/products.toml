@@ -1,0 +1,5 @@
+products = [
+    {id = 1, name = "waterbottle", price = 15.6},
+    {id = 2, name = "cook", price = 25.1},
+    {id = 3, name = "NVX 3080 IT", price = 250.41},
+]
