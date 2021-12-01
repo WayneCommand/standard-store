@@ -21,6 +21,7 @@
         <module>product</module>
         <module>bag</module>
         <module>order</module>
+        <module>stock</module>
     </modules>
 
     <dependencies>
