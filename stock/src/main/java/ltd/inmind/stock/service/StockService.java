@@ -31,6 +31,15 @@ public class StockService {
     public static final Long DEFAULT_TIMEOUT = 10L;
 
     public void clearance(Long productId, Long count) {
+        operate(productId, count, Type.CLEARANCE);
+    }
+
+    public void ret(Long productId, Long count) {
+        operate(productId, count, Type.RETURN);
+    }
+
+
+    void operate(Long productId, Long count, Type type) {
         final ByteSequence productKey = EtcdClient.toByteSequence(productId);
 
         final KV kvClient = etcd.getKVClient();
@@ -46,12 +55,21 @@ public class StockService {
             final KeyValue stock = kvs.get(0);
             final Long val = Long.valueOf(EtcdClient.toStr(stock.getValue()));
 
-            if (val < count)
-                throw new RuntimeException("stock not enough.");
-
-
             final Cmp codi = new Cmp(productKey, Cmp.Op.EQUAL, CmpTarget.value(stock.getValue()));
-            final Op.PutOp put = Op.put(productKey, EtcdClient.toByteSequence(val - count), PutOption.DEFAULT);
+            final Op.PutOp put;
+
+            switch (type) {
+                case CLEARANCE -> {
+                    if (val < count)
+                        throw new RuntimeException("stock not enough.");
+                    put = Op.put(productKey, EtcdClient.toByteSequence(val - count), PutOption.DEFAULT);
+                }
+                case RETURN -> {
+                    put = Op.put(productKey, EtcdClient.toByteSequence(val + count), PutOption.DEFAULT);
+                }
+                default -> throw new UnsupportedOperationException();
+            }
+
             final CompletableFuture<TxnResponse> commit = kvClient.txn()
                     .If(codi)
                     .Then(put)
@@ -66,10 +84,13 @@ public class StockService {
             log.error("clearance failed product id = " + productId, e);
             throw new RuntimeException("clearance failed");
         }
-
     }
 
-    public void ret(Long productId, Long count) {
 
+    enum Type {
+        CLEARANCE,
+        RETURN,
     }
+
+
 }
