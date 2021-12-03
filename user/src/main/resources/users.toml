@@ -1,6 +1,4 @@
-[user]
-
-list = [
+users = [
     {name = "admin", account = "admin@inmind.ltd"},
     {name = "guest", account = "guest@inmind.ltd"}
 ]
