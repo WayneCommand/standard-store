@@ -16,8 +16,13 @@ public class EtcdClient {
         // create client using endpoints
 
         return Client.builder()
-                .endpoints("http://localhost:2379")
+                .endpoints("http://192.168.50.66:31858")
+                .password(toByteSequence("123456"))
                 .build();
+    }
+
+    public static ByteSequence toByteSequence(String value) {
+        return ByteSequence.from(ByteString.copyFromUtf8(value));
     }
 
     public static ByteSequence toByteSequence(Long value) {

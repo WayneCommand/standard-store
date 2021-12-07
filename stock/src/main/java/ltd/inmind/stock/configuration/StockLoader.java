@@ -1,6 +1,5 @@
 package ltd.inmind.stock.configuration;
 
-import com.google.protobuf.ByteString;
 import com.moandjiezana.toml.Toml;
 import io.etcd.jetcd.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static ltd.inmind.stock.client.EtcdClient.toByteSequence;
 
@@ -28,6 +26,8 @@ public class StockLoader {
 
     private final Client etcd;
 
+    private static final String PREFIX = "stock_";
+
 
     @PostConstruct
     public void load() {
@@ -39,7 +39,7 @@ public class StockLoader {
 
             final List<Stock> list = toml.getList("stocks").stream()
                     .map(this::toStock)
-                    .collect(Collectors.toList());
+                    .toList();
 
             stockList.addAll(list);
 
@@ -54,7 +54,7 @@ public class StockLoader {
         final KV kvClient = etcd.getKVClient();
 
         stockList.forEach(stock -> {
-            kvClient.put(toByteSequence(stock.productId()), toByteSequence(stock.total()));
+            kvClient.put(toByteSequence(PREFIX.concat(String.valueOf(stock.productId()))), toByteSequence(stock.total()));
         });
     }
 

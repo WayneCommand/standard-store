@@ -1,7 +1,6 @@
 package ltd.inmind.stock.route;
 
 import lombok.AllArgsConstructor;
-import ltd.inmind.stock.configuration.StockLoader;
 import ltd.inmind.stock.service.StockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
