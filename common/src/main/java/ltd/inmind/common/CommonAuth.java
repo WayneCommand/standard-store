@@ -44,4 +44,10 @@ public class CommonAuth {
         return JWT.decode(token)
                 .getSubject();
     }
+
+    public static void main(String[] args) {
+        System.out.println(token("shenlan", "shenlanaz"));
+    }
+
+    // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzaGVubGFuYXoiLCJyb2xlIjoidGVzdCIsImV4cCI6MTY0MDk2NiwidXNlcm5hbWUiOiJzaGVubGFuIn0.44JmsiVaBz-uXwXiD3EGJIP_O5X_fDfZl0BbGhaPSlsdlCKLuAYGC_KBjSBMUixBTFQjaq0Bw8-3UOKmSbfUbg
 }
