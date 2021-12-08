@@ -1,5 +1,6 @@
 package ltd.inmind.order.records;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public record Order(
         String account,
         Instant createTime,
         Long status // 1 created, 2 paid, 3 transferring, 4 done, 0 canceled
-) {
+) implements Serializable {
     public static Order createNew(List<Inventory> inventories, String account) {
         return new Order(String.valueOf(System.nanoTime()), inventories, account, Instant.now(), 1L);
     }

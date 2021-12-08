@@ -14,8 +14,19 @@ public class OrderService {
 
     static final Map<String, List<Order>> memCache = new HashMap<>();
 
-    public Order create(List<Inventory> inventories, String account) {
 
+    public Order get(String id, String account) {
+        if (memCache.containsKey(account)){
+            final List<Order> orders = memCache.get(account);
+            return orders.stream()
+                    .filter(order -> id.equals(order.id()))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    public Order create(List<Inventory> inventories, String account) {
         Order aNew = Order.createNew(inventories, account);
 
         if (memCache.containsKey(account)){

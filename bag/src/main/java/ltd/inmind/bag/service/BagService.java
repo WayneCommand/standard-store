@@ -1,6 +1,7 @@
 package ltd.inmind.bag.service;
 
 import lombok.AllArgsConstructor;
+import ltd.inmind.bag.api.OrderAPI;
 import ltd.inmind.bag.api.StockAPI;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -16,6 +18,8 @@ public class BagService {
     Map<String, List<Item>> memStore = new HashMap<>();
 
     private final StockAPI stockAPI;
+
+    private final OrderAPI orderAPI;
 
 
     public void addProduct(Long productId, Long count, String account) {
@@ -69,9 +73,18 @@ public class BagService {
                 stockAPI.clearance(item.productId, item.count);
             });
 
-            // TODO 创建订单
+            final List<OrderAPI.Inventory> inventories = items.stream()
+                    .map(this::toInventory)
+                    .collect(Collectors.toList());
+
+            orderAPI.create(inventories, account);
+
         }
 
+    }
+
+    OrderAPI.Inventory toInventory(Item item) {
+        return new OrderAPI.Inventory(item.productId, item.count, 1.0);
     }
 
     record Item(Long productId, Long count) {

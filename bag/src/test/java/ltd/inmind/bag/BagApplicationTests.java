@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @EnabledIfEnvironmentVariables({
-        @EnabledIfEnvironmentVariable(named = "api.stock.service", matches = "api.stock.service")
+        @EnabledIfEnvironmentVariable(named = "api.stock.service", matches = "api.stock.service"),
+        @EnabledIfEnvironmentVariable(named = "api.order.service", matches = "api.order.service")
 })
 class BagApplicationTests {
 

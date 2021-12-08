@@ -2,12 +2,14 @@ package ltd.inmind.order.route;
 
 import lombok.AllArgsConstructor;
 import ltd.inmind.common.CommonAuth;
+import ltd.inmind.common.SerialUtil;
 import ltd.inmind.order.records.Inventory;
 import ltd.inmind.order.records.Order;
 import ltd.inmind.order.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,13 +19,27 @@ public class OrderRoute {
 
     private final OrderService orderService;
 
+    @GetMapping("/{id}/bytes")
+    public byte[] getToBytes(@PathVariable("id") String id, String account) {
+        try {
+            return SerialUtil.toBytes(orderService.get(id, account));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Order get(@PathVariable("id") String id, HttpServletRequest request) {
+
+        final String userAccount = CommonAuth.getUserAccount(CommonAuth.getAuthToken(request));
+
+        return orderService.get(id, userAccount);
+    }
 
     @PostMapping("/create")
-    public Order create(@RequestBody List<Inventory> inventories, HttpServletRequest request) {
+    public Order create(@RequestBody List<Inventory> inventories, String account) {
 
-        String userAccount = CommonAuth.getUserAccount(CommonAuth.getAuthToken(request));
-
-        return orderService.create(inventories, userAccount);
+        return orderService.create(inventories, account);
     }
 
     @DeleteMapping("/cancel")
