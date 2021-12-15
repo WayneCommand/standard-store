@@ -17,6 +17,7 @@ public class OrderAPI {
     private String orderService;
 
     private static final String GET = "/order/%s/bytes?account=%s";
+    private static final String PAID = "/callback/paid/%s?account=%s";
 
     public Order get(String id, String account) {
 
@@ -35,6 +36,19 @@ public class OrderAPI {
 
     }
 
+    public void paid(String id, String account) {
+        final String url = String.format(PAID, id, account);
+        try {
+            final HttpResponse<String> resp = HTTP.POST(orderService, url);
+
+            if (resp.statusCode() != 200)
+                throw new RuntimeException(resp.body());
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public record Order(
             String id,
             List<Inventory> inventories,
@@ -42,6 +56,13 @@ public class OrderAPI {
             Instant createTime,
             Long status // 1 created, 2 paid, 3 transferring, 4 done, 0 canceled
     ) {
+
+        public Double summary() {
+            if (inventories == null) return 0D;
+            return inventories.stream()
+                    .mapToDouble(inventory -> inventory.count() * inventory.price())
+                    .sum();
+        }
 
     }
 

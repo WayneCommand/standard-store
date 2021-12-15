@@ -49,10 +49,9 @@ public class OrderRoute {
     }
 
     @PostMapping("/callback/paid/{order_id}")
-    public void paid(@PathVariable("order_id") String id, HttpServletRequest request) {
-        String userAccount = CommonAuth.getUserAccount(CommonAuth.getAuthToken(request));
+    public void paid(@PathVariable("order_id") String id, String account) {
 
-        orderService.paid(id, userAccount);
+        orderService.paid(id, account);
     }
 
 
