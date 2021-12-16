@@ -77,6 +77,6 @@ jobs:
           docker build -t "frostbitez/store-delivery:$GITHUB_SHA" .
 
       - name: Docker building bag service
-          run: |
-            cd bag
-            docker build -t "frostbitez/store-bag:$GITHUB_SHA" .
+        run: |
+          cd bag
+          docker build -t "frostbitez/store-bag:$GITHUB_SHA" .
