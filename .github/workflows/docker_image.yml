@@ -50,4 +50,4 @@ jobs:
         run: |
           cd user
           docker build -t frostbitez/store-user .
-          docker push
+          docker push frostbitez/store-user
