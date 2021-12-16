@@ -1,4 +1,4 @@
-FROM 3-openjdk-17
+FROM maven:3-openjdk-17
 
 RUN mvn clean package -Dmaven.javadoc.skip=true -B -V
 
