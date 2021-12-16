@@ -35,7 +35,11 @@ jobs:
           # Log out from the Docker registry at the end of a job
           logout: true
       
-      - name: Docker build
+      - name: Maven build
+        run: |
+          ./mvnw clean package -Dmaven.javadoc.skip=true -B -V
+
+      - name: user service
         run: |
           cd user
           docker build -t frostbitez/store-user .
