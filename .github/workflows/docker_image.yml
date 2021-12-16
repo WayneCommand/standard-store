@@ -46,14 +46,12 @@ jobs:
         run: |
           mvn clean package -Dmaven.javadoc.skip=true -B -V
 
-      - name: push user service
+      - name: Docker building user service
         run: |
           cd user
-          docker build -t frostbitez/store-user .
-          docker push frostbitez/store-user
+          docker build -t "frostbitez/store-user:$GITHUB_SHA" .
 
-      - name: push user service
+      - name: Docker building stock service
         run: |
           cd stock
-          docker build -t frostbitez/stock-user .
-          docker push frostbitez/stock-user
+          docker build -t "frostbitez/store-stock:$GITHUB_SHA" .
