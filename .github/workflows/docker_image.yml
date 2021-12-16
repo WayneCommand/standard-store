@@ -55,3 +55,28 @@ jobs:
         run: |
           cd stock
           docker build -t "frostbitez/store-stock:$GITHUB_SHA" .
+
+      - name: Docker building product service
+        run: |
+          cd product
+          docker build -t "frostbitez/store-product:$GITHUB_SHA" .
+
+      - name: Docker building payment service
+        run: |
+          cd payment
+          docker build -t "frostbitez/store-payment:$GITHUB_SHA" .
+
+      - name: Docker building order service
+        run: |
+          cd order
+          docker build -t "frostbitez/store-order:$GITHUB_SHA" .
+
+      - name: Docker building delivery service
+        run: |
+          cd delivery
+          docker build -t "frostbitez/store-delivery:$GITHUB_SHA" .
+
+      - name: Docker building bag service
+          run: |
+            cd bag
+            docker build -t "frostbitez/store-bag:$GITHUB_SHA" .
