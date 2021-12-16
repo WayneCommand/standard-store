@@ -80,3 +80,14 @@ jobs:
         run: |
           cd bag
           docker build -t "frostbitez/store-bag:$GITHUB_SHA" .
+
+      - name: Docker push
+        run: |
+          docker push "frostbitez/store-user:$GITHUB_SHA"
+          docker push "frostbitez/store-stock:$GITHUB_SHA"
+          docker push "frostbitez/store-product:$GITHUB_SHA"
+          docker push "frostbitez/store-payment:$GITHUB_SHA"
+          docker push "frostbitez/store-order:$GITHUB_SHA"
+          docker push "frostbitez/store-delivery:$GITHUB_SHA"
+          docker push "frostbitez/store-bag:$GITHUB_SHA"
+          
