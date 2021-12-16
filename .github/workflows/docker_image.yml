@@ -46,8 +46,14 @@ jobs:
         run: |
           mvn clean package -Dmaven.javadoc.skip=true -B -V
 
-      - name: user service
+      - name: push user service
         run: |
           cd user
           docker build -t frostbitez/store-user .
           docker push frostbitez/store-user
+
+      - name: push user service
+        run: |
+          cd stock
+          docker build -t frostbitez/stock-user .
+          docker push frostbitez/stock-user
